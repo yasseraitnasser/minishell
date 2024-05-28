@@ -1,7 +1,7 @@
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -lreadline
-FILES = main.c ft_split.c
+FILES = main.c ft_strtrim.c
 
 FILES_o = $(FILES:.c=.o)
 

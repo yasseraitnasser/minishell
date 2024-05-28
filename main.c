@@ -2,8 +2,9 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdlib.h>
+#include "minishell.h"
 
-void	ft_error(str)
+void	ft_error(char *str)
 {
 	free(str);
 	printf("syntax error\n");
@@ -27,8 +28,9 @@ int	count_words_and_check(char *str)
 			{
 				if (str[i + 1] != '|' && str[i + 1] != '&')
 					count++;
-				if (str[i - 1] == '|' || str[i - 1] == '&')
-					ft_error(str);
+				//if (str[i - 1] == '|' || str[i - 1] == '&')
+					//ft_error(str);
+					// dont forget to trim :)
 			}
 			else
 				ft_error(str);
@@ -43,6 +45,7 @@ char	**ft_split(char *str)
 	char	**result;
 	int		i;
 
+	str = ft_strtrim(str, " ");
 	result = malloc(count_words_and_check(str) * sizeof(char *) + 1);
 	if (!result)
 		return (result);
@@ -63,6 +66,7 @@ int main()
 	if (!str)
 		exit(EXIT_SUCCESS);
 	parcing(str);
+	//printf("%s\n", str);
 	//execution
 	free(str);
 	return (0);
