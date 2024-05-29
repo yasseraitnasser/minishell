@@ -6,7 +6,7 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:20:50 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/05/29 16:10:55 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/05/29 22:52:52 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,10 @@
 # include <readline/history.h>
 # include <stdlib.h>
 
-char	*ft_strtrim(char const *s1, char const *set);
-size_t	ft_strlen(const char *s);
-char	*ft_strdup(const char *s1);
+int		ft_strcmp(const char *s1, const char *s2);
 void	ft_error(char *str);
 void	parsing(char *str);
-char	**ft_split(char *str);
-char	*ultimate_alloc(int *i, char **result, int index);
-int		count_words_and_check(char *str);
-void	if_next_char_is_true(char *str, int i, int *count);
+char	**ft_split(char *str, char c);
+int		found_match(char *str);
 
 #endif

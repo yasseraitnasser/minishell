@@ -5,25 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 15:18:24 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/05/29 16:10:32 by yait-nas         ###   ########.fr       */
+/*   Created: 2024/05/29 18:44:02 by yait-nas          #+#    #+#             */
+/*   Updated: 2024/05/29 19:47:43 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **env)
 {
 	char	*str;
 
-	str = readline("-> ~ ");
-	if (!str || !(*str))
-		exit(EXIT_SUCCESS);
-	parsing(str);
-	free(str);
-	return (0);
+	(void)argv;
+	(void)env;
+	if (argc == 1)
+	{
+		while (1)
+		{
+			str = readline("> ");
+			if (!str || !ft_strcmp(str, "exit"))
+				break ;
+			parsing(str);
+			free(str);
+		}
+	}
+	else
+		write(2, "eat those arguments :)\n", 23);
 }

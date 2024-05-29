@@ -5,99 +5,59 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 15:53:09 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/05/29 15:53:30 by yait-nas         ###   ########.fr       */
+/*   Created: 2024/05/29 20:34:38 by yait-nas          #+#    #+#             */
+/*   Updated: 2024/05/29 22:52:29 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	if_next_char_is_true(char *str, int i, int *count)
+int	found_match(char *str)
 {
-	if (str[i + 1] != '|' && str[i + 1] != '&')
-		(*count)++;
-	else
-	{
-		if (str[i - 1] == '|' || str[i - 1] == '&')
-			ft_error(str);
-	}
-}
-
-int	count_words_and_check(char *str)
-{
-	int	i;
-	int	count;
-
-	i = 0;
-	count = 1;
-	if (*str == '|' || *str == '&')
-		ft_error(str);
-	while (str[i])
-	{
-		if (str[i] == '|' || str[i] == '&')
-		{
-			if (str[i + 1])
-				if_next_char_is_true(str, i, &count);
-			else
-				ft_error(str);
-		}
-		i++;
-	}
-	return (count);
-}
-
-char	*ultimate_alloc(int *i, char **result, int index)
-{
-	char	*result_index;
-
-	result_index = malloc((*i) + 1);
-	if (!result_index)
-	{
-		while (--index >= 0)
-			free(result[index]);
-		free(result);
-		return (NULL);
-	}
-	*i = 0;
-	return (result_index);
-}
-
-char	**ft_split(char *str)
-{
-	char	**result;
-	int		i;
-	int		index;
-
-	str = ft_strtrim(str, " ");
-	result = malloc(count_words_and_check(str) * sizeof(char *) + 1);
-	if (!result)
-		return (result);
-	index = 0;
 	while (*str)
 	{
-		i = 0;
-		while (str[i] && str[i] != '|' && str[i] != '&')
-			i++;
-		result[index] = ultimate_alloc(&i, result, index);
-		while (*str && *str != '|' && *str != '&')
-			result[index][i++] = *(str++);
-		result[index][i] = '\0';
-		index++;
-		while (*str && (*str == '&' || *str == '|'))
-			str++;
+		if (*str == ')')
+			return (1);
+		str++;
 	}
-	result[index] = NULL;
-	return (result);
+	return (0);
 }
 
 void	parsing(char *str)
 {
-	char	**cmd_splited;
+	int		paranthese1;
+	int		paranthese2;
+	int		single_quotes;
+	int		double_quotes;
+	char	*tmp;
 
-	cmd_splited = ft_split(str);
-	while (*cmd_splited)
+	paranthese1 = 0;
+	paranthese2 = 0;
+	single_quotes = 0;
+	double_quotes = 0;
+	tmp = str;
+	while (*tmp)
 	{
-		printf("%s\n", *cmd_splited);
-		cmd_splited++;
+		if (*tmp == '(')
+		{
+			if (!found_match(tmp))
+			{
+				printf("syntax error\n");
+				return ;
+			}
+			paranthese1++;
+		}
+		else if (*tmp == ')')
+			paranthese2++;
+		else if (*tmp == '\'')
+			single_quotes++;
+		else if (*tmp == '"')
+			double_quotes++;
+		tmp++;
+	}
+	if (paranthese1 != paranthese2 || single_quotes % 2 || double_quotes % 2)
+	{
+		printf("syntax error\n");
+		return ;
 	}
 }
