@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 15:18:24 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/05/29 16:10:32 by yait-nas         ###   ########.fr       */
+/*   Created: 2023/11/02 21:29:24 by yait-nas          #+#    #+#             */
+/*   Updated: 2024/05/28 19:00:45 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <readline/readline.h>
-#include <readline/history.h>
-#include <stdlib.h>
 #include "minishell.h"
 
-int	main(void)
+char	*ft_strdup(const char *s1)
 {
-	char	*str;
+	size_t	i;
+	char	*s2;
 
-	str = readline("-> ~ ");
-	if (!str || !(*str))
-		exit(EXIT_SUCCESS);
-	parsing(str);
-	free(str);
-	return (0);
+	i = 0;
+	s2 = malloc((ft_strlen(s1) + 1) * sizeof(unsigned char));
+	if (s2 == NULL)
+		return (s2);
+	while (s1[i])
+	{
+		s2[i] = s1[i];
+		i++;
+	}
+	s2[i] = '\0';
+	return (s2);
 }
