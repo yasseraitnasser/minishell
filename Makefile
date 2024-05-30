@@ -2,7 +2,7 @@ NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 READLINE = -lreadline
-FILES = main.c ft_strcmp.c parsing.c
+FILES = main.c ft_strcmp.c parsing.c ft_split.c
 
 FILES_o = $(FILES:.c=.o)
 
