@@ -6,66 +6,11 @@
 /*   By: yait-nas <yait-nas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/07 13:45:30 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/05/30 21:31:56 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/05/31 14:13:40 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_what_is_next(char *str)
-{
-	while (*str)
-	{
-		while (*str == ' ')
-			str++;
-		if (*str == '|' || *str == '\0')
-			return (-1);
-		else
-			return (0);
-		str++;
-	}
-	return (-1);
-}
-
-static int	count_words_and_check(char *str, char c)
-{
-	int	count;
-
-	count = 1;
-	/*while (*str)
-	{
-		while (*str == ' ')
-			str++;
-		if (*str == c)
-			return (-1);
-		while (*str && *str != c)
-			str++;
-		if (*str)
-			count++;
-		if (*str == c)
-		{
-			if (check_what_is_next(str + 1))
-				return (-1);
-			str++;
-		}
-	}*/
-	while (*str)
-	{
-		while (*str == ' ')
-			str++;
-		if (*str == c)
-			return (-1);
-		while (*str && *str != c)
-			str++;
-		if (*str)
-		{
-			if (check_what_is_next(++str))
-				return (-1);
-			count++;
-		}
-	}
-	return (count);
-}
 
 static int	c_char(char *s, char c)
 {
@@ -103,10 +48,31 @@ static char	*word(char *s, char **strings, int index, char c)
 	return (p);
 }
 
+static void	to_be_continued(char **strings, char *s, char c)
+{
+	int	string_index;
+
+	string_index = 0;
+	while (*s)
+	{
+		while (*s == c)
+			s++;
+		if (*s)
+		{
+			strings[string_index] = word(s, strings, string_index, c);
+			if (!strings[string_index])
+				return ;
+			string_index++;
+		}
+		while (*s && *s != c)
+			s++;
+	}
+	strings[string_index] = NULL;
+}
+
 char	**ft_split(char	*s, char c)
 {
 	char	**strings;
-	int		string_index;
 	int		count;
 
 	count = count_words_and_check(s, c);
@@ -118,21 +84,6 @@ char	**ft_split(char	*s, char c)
 	strings = malloc(sizeof(char *) * (count + 1));
 	if (!strings)
 		return (NULL);
-	string_index = 0;
-	while (*s)
-	{
-		while (*s == c)
-			s++;
-		if (*s)
-		{
-			strings[string_index] = word(s, strings, string_index, c);
-			if (!strings[string_index])
-				return (NULL);
-			string_index++;
-		}
-		while (*s && *s != c)
-			s++;
-	}
-	strings[string_index] = NULL;
+	to_be_continued(strings, s, c);
 	return (strings);
 }

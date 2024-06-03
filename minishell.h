@@ -6,7 +6,7 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:20:50 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/05/29 22:52:52 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:56:43 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,10 @@
 # include <stdlib.h>
 
 int		ft_strcmp(const char *s1, const char *s2);
-void	ft_error(char *str);
-void	parsing(char *str);
 char	**ft_split(char *str, char c);
-int		found_match(char *str);
+int		count_words_and_check(char *str, char c);
+int		check_what_is_next(char *str);
+void	parsing(char **line_splited);
+void	free_matrix(char **line_splited);
 
 #endif

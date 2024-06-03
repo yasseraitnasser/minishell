@@ -5,59 +5,88 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 20:34:38 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/05/29 22:52:29 by yait-nas         ###   ########.fr       */
+/*   Created: 2024/05/31 14:15:05 by yait-nas          #+#    #+#             */
+/*   Updated: 2024/06/03 19:26:28 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	found_match(char *str)
+void	free_matrix(char **line_splited)
 {
-	while (*str)
+	int	i;
+
+	i = 0;
+	while (line_splited[i])
 	{
-		if (*str == ')')
-			return (1);
-		str++;
+		free(line_splited[i]);
+		i++;
+	}
+	free(line_splited);
+}
+
+int	quotes_handler(char *str, char c, int *i)
+{
+	(*i)++;
+	while (str[*i] && str[*i] != c)
+		(*i)++;
+	if (!(str[*i]))
+		return (1);
+	return (0);
+}
+
+int	redirection_handler(char *str, char c, int *i)
+{
+	(*i)++;
+	if (str[*i] == c)
+		(*i)++;
+	while (str[*i] == ' ')
+		(*i)++;
+	if (str[*i] == '<' || str[*i] == '|' || str[*i] == '>' || str[*i] == ';' || str[*i] == '\0')
+		return (1);
+	return (0);
+}
+
+int	something_is_wrong(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '"')
+			if (quotes_handler(str, '"', &i))
+				return (1);
+		if (str[i] == '\'')
+			if (quotes_handler(str, '\'', &i))
+				return (1);
+		if (str[i] == '<')
+			if (redirection_handler(str, '<', &i))
+				return (1);
+		if (str[i] == '>')
+			if (redirection_handler(str, '>', &i))
+				return (1);
+		i++;
 	}
 	return (0);
 }
 
-void	parsing(char *str)
+void	parsing(char **line_splited)
 {
-	int		paranthese1;
-	int		paranthese2;
-	int		single_quotes;
-	int		double_quotes;
-	char	*tmp;
+	int	i;
 
-	paranthese1 = 0;
-	paranthese2 = 0;
-	single_quotes = 0;
-	double_quotes = 0;
-	tmp = str;
-	while (*tmp)
+	if (line_splited)
 	{
-		if (*tmp == '(')
+		i = 0;
+		while (line_splited[i])
 		{
-			if (!found_match(tmp))
+			if (something_is_wrong(line_splited[i]))
 			{
 				printf("syntax error\n");
+				free_matrix(line_splited);
 				return ;
 			}
-			paranthese1++;
+			i++;
 		}
-		else if (*tmp == ')')
-			paranthese2++;
-		else if (*tmp == '\'')
-			single_quotes++;
-		else if (*tmp == '"')
-			double_quotes++;
-		tmp++;
-	}
-	if (paranthese1 != paranthese2 || single_quotes % 2 || double_quotes % 2)
-	{
-		printf("syntax error\n");
-		return ;
 	}
 }
