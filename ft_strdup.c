@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 18:44:02 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/17 09:18:50 by yait-nas         ###   ########.fr       */
+/*   Created: 2023/11/02 21:29:24 by yait-nas          #+#    #+#             */
+/*   Updated: 2024/07/17 15:22:19 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+char	*ft_strdup(const char *s1)
 {
-	char	*str;
-	char	**line_splited;
-	t_line_splited	*head;
+	size_t	i;
+	char	*s2;
 
-	(void)argv;
-	(void)env;
-	if (argc == 1)
+	i = 0;
+	s2 = malloc((ft_strlen(s1) + 1) * sizeof(unsigned char));
+	if (s2 == NULL)
+		return (s2);
+	while (s1[i])
 	{
-		while (1)
-		{
-			str = readline("> ");
-			if (!str || !ft_strcmp(str, "exit"))
-				break ;
-			line_splited = ft_split(str, '|');
-			parsing(line_splited);
-			preparing_for_execution(&head, line_splited);
-			free(str);
-		}
+		s2[i] = s1[i];
+		i++;
 	}
-	else
-		write(2, "eat those arguments :)\n", 23);
+	s2[i] = '\0';
+	return (s2);
 }
-int main()

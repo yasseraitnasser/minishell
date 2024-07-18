@@ -1,39 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/29 18:44:02 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/17 09:18:50 by yait-nas         ###   ########.fr       */
+/*   Created: 2023/11/23 11:47:08 by yait-nas          #+#    #+#             */
+/*   Updated: 2024/07/17 09:23:28 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **env)
+t_list	*ft_lstlast(t_list *lst)
 {
-	char	*str;
-	char	**line_splited;
-	t_line_splited	*head;
-
-	(void)argv;
-	(void)env;
-	if (argc == 1)
+	if (!lst)
+		return (NULL);
+	while (lst -> next != NULL)
 	{
-		while (1)
-		{
-			str = readline("> ");
-			if (!str || !ft_strcmp(str, "exit"))
-				break ;
-			line_splited = ft_split(str, '|');
-			parsing(line_splited);
-			preparing_for_execution(&head, line_splited);
-			free(str);
-		}
+		lst = lst -> next;
 	}
-	else
-		write(2, "eat those arguments :)\n", 23);
+	return (lst);
 }
-int main()

@@ -6,7 +6,7 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:15:05 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/06/03 19:26:28 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/07/16 16:32:22 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ void	parsing(char **line_splited)
 			{
 				printf("syntax error\n");
 				free_matrix(line_splited);
+				line_splited = NULL;
 				return ;
 			}
 			i++;
