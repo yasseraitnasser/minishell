@@ -31,7 +31,7 @@ typedef struct s_line_splited
 {
 	char	**cmd;
 	t_redirection	*redirection;
-	struct s_line	*next;
+	struct s_line_splited	*next;
 }	t_line_splited;
 
 int		ft_strcmp(const char *s1, const char *s2);
@@ -41,6 +41,13 @@ int		check_what_is_next(char *str);
 void	parsing(char **line_splited);
 void	free_matrix(char **line_splited);
 void	preparing_for_execution(t_line_splited **head, char **line_splited);
+t_line_splited	*ft_extract_redirections_cmd(char *str);
+t_redirection	*link_redirections(char *str);
 char	*ft_strdup(const char *s1);
+size_t	ft_strlen(const char *s);
+void	ft_lstadd_back1(t_line_splited **lst, t_line_splited *new);
+void	ft_lstadd_back2(t_redirection **lst, t_redirection *new);
+t_line_splited	*ft_lstlast1(t_line_splited *lst);
+t_redirection	*ft_lstlast2(t_redirection *lst);
 
 #endif

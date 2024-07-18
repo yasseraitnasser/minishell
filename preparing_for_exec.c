@@ -15,11 +15,13 @@
 t_redirection	*link_redirections(char *str)
 {
 	t_redirection	*result;
+	t_redirection	*tmp;
 	int		i;
 	int		j;
 
-	result = malloc(sizeof(t_redirection));
-	if (!result)
+	result = NULL;
+	tmp = malloc(sizeof(t_redirection));
+	if (!tmp)
 		return (NULL);
 	i = 0;
 	while (str[i])
@@ -29,88 +31,89 @@ t_redirection	*link_redirections(char *str)
 			i++;
 			if (str[i] == '<')
 			{
-				result->redirection_type = 2;
+				tmp->redirection_type = 2;
 				while (str[i] == ' ')
 					i++;
 				j = 0;
 				while (str[i + j] && str[i + j] != ' ' && str[i + j] != '<'
-					&& str[i + j] && str[i + j] != '>' && str[i + j] != '|')
+					&& str[i + j] != '>' && str[i + j] != '|')
 					j++;
-				result->file_limiter = malloc(j + 1);
-				if (!(result->file_limiter))
+				tmp->file_limiter = malloc(j + 1);
+				if (!(tmp->file_limiter))
 					return (NULL);
 				j = 0;
 				while (str[i] && str[i] != ' ' && str[i] != '<'
-					&& str[i] && str[i] != '>' && str[i] != '|')
-					result->file_limiter[j++] = str[i++];
-				result->file_limiter[j] = '\0';
+					&&  str[i] != '>' && str[i] != '|')
+					tmp->file_limiter[j++] = str[i++];
+				tmp->file_limiter[j] = '\0';
 			}
 			else
 			{
-				result->redirection_type = 1;
+				tmp->redirection_type = 1;
 				while (str[i] == ' ')
 					i++;
 				j = 0;
 				while (str[i + j] && str[i + j] != ' ' && str[i + j] != '<'
-					&& str[i + j] && str[i + j] != '>' && str[i + j] != '|')
+					&& str[i + j] != '>' && str[i + j] != '|')
 					j++;
-				result->file_limiter = malloc(j + 1);
-				if (!(result->file_limiter))
+				tmp->file_limiter = malloc(j + 1);
+				if (!(tmp->file_limiter))
 					return (NULL);
 				j = 0;
 				while (str[i] && str[i] != ' ' && str[i] != '<'
-					&& str[i] && str[i] != '>' && str[i] != '|')
-					result->file_limiter[j++] = str[i++];
-				result->file_limiter[j] = '\0';
+					&& str[i] != '>' && str[i] != '|')
+					tmp->file_limiter[j++] = str[i++];
+				tmp->file_limiter[j] = '\0';
 			}
-				i++;
 		}
 		else if (str[i] == '>')
 		{
 			i++;
 			if (str[i] == '>')
 			{
-				result->redirection_type = 4;
+				tmp->redirection_type = 4;
 				while (str[i] == ' ')
 					i++;
 				j = 0;
 				while (str[i + j] && str[i + j] != ' ' && str[i + j] != '<'
-					&& str[i + j] && str[i + j] != '>' && str[i + j] != '|')
+					&& str[i + j] != '>' && str[i + j] != '|')
 					j++;
-				result->file_limiter = malloc(j + 1);
-				if (!(result->file_limiter))
+				tmp->file_limiter = malloc(j + 1);
+				if (!(tmp->file_limiter))
 					return (NULL);
 				j = 0;
 				while (str[i] && str[i] != ' ' && str[i] != '<'
-					&& str[i] && str[i] != '>' && str[i] != '|')
-					result->file_limiter[j++] = str[i++];
-				result->file_limiter[j] = '\0';
+					&& str[i] != '>' && str[i] != '|')
+					tmp->file_limiter[j++] = str[i++];
+				tmp->file_limiter[j] = '\0';
 			}
 			else
 			{
-				result->redirection_type = 3;
+				tmp->redirection_type = 3;
 				while (str[i] == ' ')
 					i++;
 				j = 0;
 				while (str[i + j] && str[i + j] != ' ' && str[i + j] != '<'
-					&& str[i + j] && str[i + j] != '>' && str[i + j] != '|')
+					&& str[i + j] != '>' && str[i + j] != '|')
 					j++;
-				result->file_limiter = malloc(j + 1);
-				if (!(result->file_limiter))
+				tmp->file_limiter = malloc(j + 1);
+				if (!(tmp->file_limiter))
 					return (NULL);
 				j = 0;
 				while (str[i] && str[i] != ' ' && str[i] != '<'
-					&& str[i] && str[i] != '>' && str[i] != '|')
-					result->file_limiter[j++] = str[i++];
-				result->file_limiter[j] = '\0';
+					&& str[i] != '>' && str[i] != '|')
+					tmp->file_limiter[j++] = str[i++];
+				tmp->file_limiter[j] = '\0';
 			}
 		}
+		write(1, "fuck\n", 5);
+		ft_lstadd_back2(&result, tmp);
 		i++;
 	}
 	return (result);
 }
 
-t_line_splited	*ft_extract_redirections(char *str)
+t_line_splited	*ft_extract_redirections_cmd(char *str)
 {
 	t_line_splited	*result;
 
@@ -118,7 +121,7 @@ t_line_splited	*ft_extract_redirections(char *str)
 	if (!result)
 		return (NULL);
 	result->redirection = link_redirections(str);
-	result->cmd = ft_split(rest_of_the_cake, ' ');
+	//result->cmd = ft_split(rest_of_the_cake, ' '); to do to do to do
 	return (result);
 }
 
@@ -133,9 +136,8 @@ void	preparing_for_execution(t_line_splited **head, char **line_splited)
 	i = 0;
 	while (line_splited[i])
 	{
-		tmp = malloc(sizeof(t_line_splited));
 		tmp = ft_extract_redirections_cmd(ft_strdup(line_splited[i]));
-		ft_lstadd_back(head, tmp);
+		ft_lstadd_back1(head, tmp);
 		i++;
 	}
 }

@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast_bonus.c                                 :+:      :+:    :+:   */
+/*   ft_lstadd_back.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: yait-nas <yait-nas@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/23 11:47:08 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/17 09:23:28 by yait-nas         ###   ########.fr       */
+/*   Created: 2023/11/23 12:08:28 by yait-nas          #+#    #+#             */
+/*   Updated: 2024/07/17 09:22:46 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_list	*ft_lstlast(t_list *lst)
+void	ft_lstadd_back1(t_line_splited **lst, t_line_splited *new)
 {
+	t_line_splited	*tmp;
+
 	if (!lst)
-		return (NULL);
-	while (lst -> next != NULL)
+		return ;
+	if (!*lst)
 	{
-		lst = lst -> next;
+		*lst = new;
+		return ;
 	}
-	return (lst);
+	tmp = ft_lstlast1(*lst);
+	tmp -> next = new;
 }
