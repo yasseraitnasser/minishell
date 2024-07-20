@@ -6,19 +6,19 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 13:59:58 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/05/31 14:00:21 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/07/18 21:07:13 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_what_is_next(char *str)
+int	check_what_is_next(char *str, char c)
 {
 	while (*str)
 	{
 		while (*str == ' ')
 			str++;
-		if (*str == '|' || *str == '\0')
+		if (*str == c || *str == '\0')
 			return (-1);
 		else
 			return (0);
@@ -42,7 +42,7 @@ int	count_words_and_check(char *str, char c)
 			str++;
 		if (*str)
 		{
-			if (check_what_is_next(++str))
+			if (check_what_is_next(++str, c))
 				return (-1);
 			count++;
 		}
