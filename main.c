@@ -6,7 +6,7 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:44:02 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/20 23:12:16 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/07/21 17:09:25 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	main(int argc, char **argv, char **env)
 	char	*str;
 	char	**line_splited;
 	t_line_splited	*head;
-	t_redirection	*tmp;
-	char	**cmd;
+	//t_redirection	*tmp;
+	//char	**cmd;
 
 	(void)argv;
 	(void)env;
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **env)
 			if (parsing(line_splited))
 			{
 				set_up_for_execution(&head, line_splited);
-				while (head)
+				/*while (head)
 				{
 					printf("*****************\n");
 					tmp = head->redirection;
@@ -52,7 +52,9 @@ int	main(int argc, char **argv, char **env)
 					}
 					head = head->next;
 					printf("*****************\n");
-				}
+				}*/
+				free_matrix(line_splited);
+				//free_everything(head);
 			}
 			free(str);
 		}
