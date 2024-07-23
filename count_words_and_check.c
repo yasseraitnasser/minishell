@@ -6,7 +6,7 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 13:59:58 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/21 23:31:12 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:13:18 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,11 @@ int	count_words_and_check(char *str, char c)
 		while (*str && *str != c)
 		{
 			if (*str == '"')
+			{
+				str++;
 				while (*str && *str != '"')
 					str++;
+			}
 			str++;
 		}
 		if (*str)

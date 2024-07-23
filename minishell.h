@@ -6,7 +6,7 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 15:20:50 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/20 22:58:59 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:13:44 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 char	**ft_split(char *str, char c);
 int		count_words_and_check(char *str, char c);
 int		check_what_is_next(char *str, char c);
-int		parsing(char **line_splited);
+int		parsing(char *str);
 void	free_matrix(char **line_splited);
 void	set_up_for_execution(t_line_splited **head, char **line_splited);
 void	ft_extract_redirections_cmd(t_line_splited *empty_node, char *str);

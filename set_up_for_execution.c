@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   preparing.c                                        :+:      :+:    :+:   */
+/*   set_up_for_execution.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 13:36:21 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/20 21:31:48 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/07/23 16:49:38 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	set_up_for_execution(t_line_splited **head, char **line_splited)
 	int		i;
 	t_line_splited	*tmp;
 
+	if (!line_splited)
+		return ;
 	*head = NULL;
 	i = 0;
 	while (line_splited[i])
