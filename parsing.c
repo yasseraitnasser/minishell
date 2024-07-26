@@ -6,26 +6,11 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 14:15:05 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/22 21:57:50 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:10:25 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	free_matrix(char **line_splited)
-{
-	int	i;
-
-	i = 0;
-	if (!line_splited)
-		return ;
-	while (line_splited[i])
-	{
-		free(line_splited[i]);
-		i++;
-	}
-	free(line_splited);
-}
 
 int	quotes_handler(char *str, char c, int *i)
 {
@@ -44,7 +29,8 @@ int	redirection_handler(char *str, char c, int *i)
 		(*i)++;
 	while (str[*i] == ' ')
 		(*i)++;
-	if (str[*i] == '<' || str[*i] == '|' || str[*i] == '>' || str[*i] == ';' || str[*i] == '\0')
+	if (str[*i] == '<' || str[*i] == '|' || str[*i] == '>'
+		|| str[*i] == ';' || str[*i] == '\0')
 		return (1);
 	return (0);
 }

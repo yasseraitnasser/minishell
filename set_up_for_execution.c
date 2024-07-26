@@ -6,17 +6,39 @@
 /*   By: yait-nas <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/20 13:36:21 by yait-nas          #+#    #+#             */
-/*   Updated: 2024/07/23 16:49:38 by yait-nas         ###   ########.fr       */
+/*   Updated: 2024/07/26 22:19:21 by yait-nas         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+char	*get_file_name(char *tmp)
+{
+	int		i;
+	char	*file_name;
+
+	i = 0;
+	while (tmp[i] && tmp[i] != ' ' && tmp[i] != '<'
+		&& tmp[i] != '>' && tmp[i] != '|')
+		i++;
+	file_name = malloc(i + 1);
+	if (!file_name)
+		return (NULL);
+	i = 0;
+	while (*tmp && *tmp != ' ' && *tmp != '<'
+		&& *tmp != '>' && *tmp != '|')
+	{
+		file_name[i++] = *tmp;
+		*tmp = ' ';
+		tmp++;
+	}
+	file_name[i] = '\0';
+	return (file_name);
+}
+
 void	fill_up_blank(t_line_splited *empty_node, int redirection_t, char *tmp)
 {
 	t_redirection	*redirection;
-	int		i;
-	char	*file_lim;
 
 	if (*tmp == '<' || *tmp == '>')
 	{
@@ -27,27 +49,11 @@ void	fill_up_blank(t_line_splited *empty_node, int redirection_t, char *tmp)
 		tmp++;
 	redirection = malloc(sizeof(t_redirection));
 	if (!redirection)
-		return ; // work to do befor returning
+		return ;
 	redirection->redirection_type = redirection_t;
-	i = 0;
-	while (tmp[i] && tmp[i] != ' ' && tmp[i] != '<'
-		&& tmp[i] != '>' && tmp[i] != '|')
-		i++;
-	file_lim = malloc(i + 1);
-	if (!file_lim)
-		return ; // work here as well :)
-	i = 0;
-	while (*tmp && *tmp != ' ' && *tmp != '<'
-		&& *tmp != '>' && *tmp != '|')
-	{
-		file_lim[i++] = *tmp;
-		*tmp = ' ';
-		tmp++;
-	}
-	file_lim[i] = '\0';
-	redirection->file_limiter = file_lim;
+	redirection->file_limiter = get_file_name(tmp);
 	redirection->next = NULL;
-	ft_lstadd_back2(&(empty_node->redirection), redirection);
+	ft_lstadd_redirection(&(empty_node->redirection), redirection);
 }
 
 void	ft_extract_redirections_cmd(t_line_splited *empty_node, char *str)
@@ -59,8 +65,7 @@ void	ft_extract_redirections_cmd(t_line_splited *empty_node, char *str)
 	{
 		if (*tmp == '<')
 		{
-			*tmp = ' ';
-			tmp++;
+			*(tmp++) = ' ';
 			if (*tmp == '<')
 				fill_up_blank(empty_node, 2, tmp);
 			else
@@ -68,8 +73,7 @@ void	ft_extract_redirections_cmd(t_line_splited *empty_node, char *str)
 		}
 		if (*tmp == '>')
 		{
-			*tmp = ' ';
-			tmp++;
+			*(tmp++) = ' ';
 			if (*tmp == '>')
 				fill_up_blank(empty_node, 4, tmp);
 			else
@@ -83,23 +87,23 @@ void	ft_extract_redirections_cmd(t_line_splited *empty_node, char *str)
 
 void	set_up_for_execution(t_line_splited **head, char **line_splited)
 {
-	int		i;
+	int				i;
 	t_line_splited	*tmp;
 
+	*head = NULL;
 	if (!line_splited)
 		return ;
-	*head = NULL;
 	i = 0;
 	while (line_splited[i])
 	{
 		tmp = malloc(sizeof(t_line_splited));
 		if (!tmp)
-			return ; // alote to do befor returning
+			return ;
 		tmp->redirection = NULL;
 		tmp->cmd = NULL;
 		tmp->next = NULL;
 		ft_extract_redirections_cmd(tmp, ft_strdup(line_splited[i]));
-		ft_lstadd_back1(head, tmp);
+		ft_lstadd_line_splited(head, tmp);
 		i++;
 	}
 }
